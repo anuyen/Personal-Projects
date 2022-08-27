@@ -1,0 +1,24 @@
+#pokecard {
+    background: url('/Personal-Projects/iLoveMyDog/1/d7znqmc-8074dabb-3a88-462a-8f56-ddab9b35139f.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 25px;
+    width: auto;
+    height: 313px;
+    min-height: 500px;
+    overflow: hidden;
+    border: solid 2px black; /*1.399*/
+}
+
+#name {
+    width: 150px;
+    height: 30px;
+    max-width: calc(inherit * 50%);
+    background-color: red;
+    z-index: 100;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5.5%;
+    margin-top: 2.7%;
+    float: left;
+}

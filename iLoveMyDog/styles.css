@@ -1,0 +1,163 @@
+body {
+    margin-top: -.9em;
+    margin-bottom: 3em;
+    font-family: 'Poppins', sans-serif;
+    background: url('../iLoveMyDog/STScI-01G7DDBW5NNXTJV8PGHB0465QP.jpg');
+    z-index: -1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/*header section*/
+.title h2, .title h4 {
+    font-style: sans-serif;
+    font-weight: normal;
+    display: flex;
+    justify-content: center;
+}
+
+.title h1 {
+    display: flex;
+    justify-content: center;
+    opacity: 0.8;
+    box-shadow: 0 30px 40px 40px rgba(0,0,0,.1);
+    z-index: -1;
+    margin-top: 1.5em;
+}
+
+.title {
+    background: url('../iLoveMyDog/STScI-01G1Q6WDRH19AMC8NXMRFSTBH6.jpg');
+    background-size: cover;
+    background-position-y: 50%;
+    color: rgba(255, 255, 255, 0.877);
+    text-shadow: 2px 2px 4px #000000;
+    box-shadow: 12px 10px 35px 19px rgba(0,0,0,0.76) inset, 12px 10px 35px 19px rgba(0,0,0,0.76);
+    -webkit-box-shadow: 12px 10px 35px 19px rgba(0,0,0,0.76) inset; 
+    -moz-box-shadow: 12px 10px 35px 19px rgba(0,0,0,0.76) inset;
+    transition: 3s; 
+}
+
+.title:hover {
+    background: url('../iLoveMyDog/STScI-01G79R51118N21AAZ9MZ8XWWQ6.jpg');
+    background-size: cover;
+    background-position-y: 50%;
+    color: rgba(255, 255, 255, 0.877);
+    text-shadow: 2px 2px 4px #000000;
+    box-shadow: 12px 10px 35px 19px rgba(0,0,0,0.76) inset, 12px 10px 35px 19px rgba(0,0,0,0.76);
+    -webkit-box-shadow: 12px 10px 35px 19px rgba(0,0,0,0.76) inset; 
+    -moz-box-shadow: 12px 10px 35px 19px rgba(0,0,0,0.76) inset;
+}
+
+/*    position: fixed;
+    padding: 0 35% 0 35%
+    ^This how u make  it float*/
+    
+
+/*#box is going to be laid over h1 to create verticl gradient*/
+
+/*.box {
+    background-color: red;
+    padding: 10px 0;
+    position: absolute;
+    z-index: 999;
+}
+failed plan    */
+
+.Bold {
+    font-weight: bold;
+}
+
+.intro {
+    display: flex;
+    max-width: 100%;
+    padding: 0 20% 0 20%;
+    justify-content: center;
+}
+
+.intro p {
+    box-shadow: 20 20 10px rgba(0,0,0,.7);
+    padding: 10px;
+    color:rgba(255, 255, 255, 0.877);
+    text-shadow:rgba(255, 255, 255, 0.877);
+}
+
+.gallery img {
+    max-width: 49%;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    box-shadow: 10px 10px 5px rgba(0,0,0,.5);
+    -moz-box-shadow: 10px 10px 5px rgba(0,0,0,.5);
+    -webkit-box-shadow: 10px 10px 5px rgba(0,0,0,.5);
+    -khtml-box-shadow: 10px 10px 5px rgba(0,0,0,.5);
+}
+
+h2 {
+    text-indent: 2.5rem;
+    color:rgba(255, 255, 255, 0.877);
+    text-shadow:rgba(255, 255, 255, 0.877);
+    display: flex;
+    justify-content: center;
+}
+
+label {
+    color:rgba(255, 255, 255, 0.877);
+    text-shadow:rgba(255, 255, 255, 0.877);
+    display: flex;
+    justify-content: center;
+    margin: .5em;
+}
+
+.input {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.submit {
+    padding: 0.7em;
+}
+
+html {
+    margin: 0;
+    border: 0;
+    padding-right: 10%;
+    padding-left: 10%;
+}
+
+input[type="submit"] {
+    background-size: cover;
+    border: 0px;
+    width: 40%;
+    height: 2em;
+    font-size: 1.1rem;
+    text-shadow:rgba(255, 255, 255, 0.877);
+    background: url('../iLoveMyDog/STScI-01G7DDBW5NNXTJV8PGHB0465QP.jpg');
+    color: white;
+    box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    -webkit-box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    -moz-box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    transition: 1.5s;  
+  }
+
+  input[type="submit"]:hover {
+    background: url('../iLoveMyDog/kR52M6bzTTskXGvbzljS.jpg');
+    background-size: cover;
+    background-position-y: 30%;
+    color: #151515;
+    text-shadow: rgba(0,0,0,0.5);
+    box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    -webkit-box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    -moz-box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    transition-delay: 0.1s;
+  }
+
+  input[type="submit"]:active {
+    background: green;
+    box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    -webkit-box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+    -moz-box-shadow: 0px 4px 28px 2px rgba(0,0,0,0.89) inset;
+  }
+
+  
