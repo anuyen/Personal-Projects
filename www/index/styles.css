@@ -1,0 +1,22 @@
+body {
+    background: url('./IMG_2608\ \(1\).jpg');
+    z-index: -1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-right: 10%;
+    padding-left: 10%;
+}
+
+.siteName {
+    color: rgba(224, 219, 219, 0.562);
+    font-family: Nanum Gothic;
+    font-size: 45px;
+}
+
+html {
+    margin: 0;
+    border: 0;
+    padding-right: 10%;
+    padding-left: 10%;
+}
