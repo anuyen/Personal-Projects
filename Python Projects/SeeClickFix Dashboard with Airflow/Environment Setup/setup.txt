@@ -1,0 +1,21 @@
+docker run --name pgadmin4 -p 84:80 \
+    -e 'PGADMIN_DEFAULT_EMAIL=' \
+    -e 'PGADMIN_DEFAULT_PASSWORD='' \
+    -d dpage/pgadmin4
+
+postgres:
+    sudo ufw allow 5432/tcp
+
+    docker pull postgres
+
+    docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD= \
+        -v ~/Bo/postgre:/var/lib/postgresql/data -d postgres
+
+
+docker run --name elastic --net elastic -p 9200:9200 -p 9300:9300 -it docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+
+docker run --name kibana --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.5.0
+
+docker run --name nifi2 -p 8443:8443 -i -v ~/Bo/Nifi:/opt/nifi/nifi-current/ls-target apache/nifi
+
+Book referenced: Data Engineering with Python - Paul Crickard

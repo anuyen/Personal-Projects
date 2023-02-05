@@ -1,0 +1,10 @@
+PUT scf
+{
+  "mappings": {
+    "properties": {
+      "coordinate":{
+        "type": "geo_point"
+      }
+    }
+  }
+}
