@@ -1,0 +1,16 @@
+[
+  {
+    "spliter_thread": 10,
+    "connections": 20,
+    "batch_size": 35000,
+    "country_name": "peru_new",
+    "input_folder": "peru_new_source"
+  },
+  {
+    "spliter_thread": 10,
+    "connections": 20,
+    "batch_size": 35000,
+    "country_name": "peru_new",
+    "input_folder": "peru_new_source"
+  }
+]

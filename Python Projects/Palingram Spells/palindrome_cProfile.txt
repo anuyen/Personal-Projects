@@ -1,0 +1,80 @@
+list
+
+Number of words in source = 113809
+
+Number of palindromes found = 91
+
+         100 function calls in 0.020 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.020    0.020 <string>:1(<module>)
+        1    0.018    0.018    0.020    0.020 palindrome_recursed.py:20(pal_list)
+        1    0.000    0.000    0.020    0.020 {built-in method builtins.exec}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        3    0.002    0.001    0.002    0.001 {built-in method builtins.print}
+       91    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+list recursive
+
+Number of words in source = 113809
+
+Number of palindromes found = 91
+
+         374654 function calls (366354 primitive calls) in 0.177 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.177    0.177 <string>:1(<module>)
+        1    0.068    0.068    0.177    0.177 palindrome_recursed.py:32(pal_list_recursive)
+122109/113809    0.080    0.000    0.108    0.000 palindrome_recursed.py:38(check_string)
+        1    0.000    0.000    0.177    0.177 {built-in method builtins.exec}
+   252447    0.028    0.000    0.028    0.000 {built-in method builtins.len}
+        3    0.001    0.000    0.001    0.000 {built-in method builtins.print}
+       91    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+set
+
+Number of words in source = 113809
+
+Number of palindromes found = 91
+
+         100 function calls in 0.041 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.041    0.041 <string>:1(<module>)
+        1    0.040    0.040    0.041    0.041 palindrome_recursed.py:53(pal_set)
+        1    0.000    0.000    0.041    0.041 {built-in method builtins.exec}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        3    0.001    0.000    0.001    0.000 {built-in method builtins.print}
+       91    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+set recursive
+
+Number of words in source = 113809
+
+Number of palindromes found = 91
+
+         374654 function calls (366354 primitive calls) in 0.204 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.204    0.204 <string>:1(<module>)
+        1    0.097    0.097    0.204    0.204 palindrome_recursed.py:65(pal_set_recursive)
+122109/113809    0.079    0.000    0.106    0.000 palindrome_recursed.py:71(check_string)
+        1    0.000    0.000    0.204    0.204 {built-in method builtins.exec}
+   252447    0.027    0.000    0.027    0.000 {built-in method builtins.len}
+        3    0.001    0.000    0.001    0.000 {built-in method builtins.print}
+       91    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}

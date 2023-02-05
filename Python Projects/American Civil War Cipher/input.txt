@@ -1,0 +1,5 @@
+You might be wondering which way you should use to work with files between the combo of with and open() and just the open() function.
+I would advise you to use the combination of with and open() because the with statement closes the file for you and you get to write less code.
+Unlike open() where you have to close the file with the close() method, the with statement closes the file for you without you telling it to.
+This is because the with statement calls 2 built-in methods behind the scene – __enter()__ and __exit()__.
+The __exit()__ method closes the file when the operation you specify is done.

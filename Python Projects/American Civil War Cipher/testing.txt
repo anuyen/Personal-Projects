@@ -1,0 +1,15 @@
+Welcome to route decipherer
+
+Paste your cipher text here:
+might You be wondering which way should you use to work with files between combo the with of open() and and just the open() I function. advise would you to the use combination of with and because open() with the statement closes file the you for you and get to less write code. Unlike where open() have you close to the file the with close() method, the with closes statement file the for you without you telling it to. This because is with the statement calls built-in 2 methods behind the scene __enter()__ â€“ and __exit()__. The __exit()__ method
+ closes file the when the operation you specify is
+
+Paste your key here:
+-1 2 3 -4 5 6 7 -8 -9 -10 11 12 -13 -14 15 -16 17 18 -19 -20 21 -22 -23 -24 25 -26 27 -28 -29 -30 31 -32 33 34 -35 -36 37 38 39 40 -41 -42 43 -44 45 46 -47 48 49 50 -51 52 53 54
+
+Columns =54
+Rows    =2
+key     =-1 2 3 -4 5 6 7 -8 -9 -10 11 12 -13 -14 15 -16 17 18 -19 -20 21 -22 -23 -24 25 -26 27 -28 -29 -30 31 -32 33 34 -35 -36 37 38 39 40 -41 -42 43 -44 45 46 -47 48 49 50 -51 52 53 54
+
+Final translation:
+You be which you use work files the of and and the function. would you use combination with open() the statement the for and get write code. open() you to the with close() the statement the for without telling to. is the statement 2 methods the â€“ and The method the when operation specify might wondering way should to with between combo with open() just open() I advise to the of and because with closes file you you to less Unlike where have close file the method, with closes file you you it This because with calls built-in behind scene __enter()__ __exit()__. __exit()__ closes file the you is

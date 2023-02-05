@@ -1,0 +1,89 @@
+﻿[
+  {
+    "run": "peru_run1",
+    "output_tab_size": 100000,
+    "country_name": "peru_new",
+    "input_folder": "peru_new_source",
+    "raw_folder": "peru_raw1",
+    "thread_number": 30,
+    "batch_size": 35000,
+    "ignore_edu_table": true,
+    "ignore_exp_table": true,
+    "people_columns": [
+      "id",
+      "full_name",
+      "first_name",
+      "last_name",
+      "job_title",
+      "work_email",
+      "job_company_website",
+      "linkedin_url",
+      "linkedin_id",
+      "linkedin_connections",
+      "job_start_date",
+      "job_title_role",
+      "job_company_size",
+      "mobile_phone",
+      "phone_numbers",
+      "personal_email",
+      "current_professional_email",
+      "professional_email",
+      "none_type_email"
+    ],
+    "necessary_people_columns": [
+      "job_title"
+    ],
+    "filters": [],
+    "new_filters": {
+      "fields": "job_title|job_title_role|job_title_sub_role|job_company_size",
+      "rules": [
+        "job_title == 'administrator'"
+      ],
+      "relation": "{0}"
+    }
+  },
+  {
+    "run": "peru_run2",
+    "output_tab_size": 100000,
+    "country_name": "peru_new",
+    "input_folder": "peru_new_source",
+    "raw_folder": "peru_raw2",
+    "thread_number": 30,
+    "batch_size": 35000,
+    "ignore_edu_table": true,
+    "ignore_exp_table": true,
+    "people_columns": [
+      "id",
+      "full_name",
+      "first_name",
+      "last_name",
+      "job_title",
+      "work_email",
+      "job_company_website",
+      "linkedin_url",
+      "linkedin_id",
+      "linkedin_connections",
+      "job_start_date",
+      "job_title_role",
+      "job_company_size",
+      "mobile_phone",
+      "phone_numbers",
+      "personal_email",
+      "current_professional_email",
+      "professional_email",
+      "none_type_email"
+    ],
+    "necessary_people_columns": [
+      "job_title"
+    ],
+    "filters": [],
+    "new_filters": {
+      "fields": "job_title|job_title_role|job_title_sub_role|job_company_size",
+      "rules": [
+        "job_title = 'CEO' or 'chief executive' or 'GM' or 'General Manager' or 'DG' or 'PDG' or 'directeur général' or 'directrice générale' or 'president' or 'président' or 'présidente' or 'Deputy director' or 'général délégué' or 'générale déléguée' or 'managing director' or 'MD' or 'chief transformation' or 'COO' or 'Chief operations' or 'chief operating' or ('EVP' or 'SEVP' or 'SVP' or 'VP' or 'vice' or 'director' or 'directrice' or 'directeur' ) and 'Operations' ",
+        "job_title ! 'affaires' or 'd\\'affaires' or 'commercial' or 'cyber' or 'cybersecurite' or 'coordinateur' or 'coordinatrice' or 'sales' or 'billing' or 'credit' or 'Regulatory' or 'Medical' or 'injectable' or 'Accountant' or 'marketing' or 'commercial' or 'Business development' or 'Relations Humaines' or 'supply chain' or 'Advocacy' or 'intelligence' or 'data' or 'artificial' or 'talent' or 'independant' or 'independante' or 'independent' or 'freelance' or 'free-lance' or 'self' or 'freelancer' or 'free-lancer' or 'conseil' or 'conseils' or 'consulting' or 'consultant' or 'consultante' or 'conseiller' or 'conseillère' or 'advisor' or 'advising' or 'board' or 'investor' or 'stage' or 'stages' or 'stagiaire' or 'trainee' or 'intern' or 'internship' or 'retired' or 'retraité' or 'retraitée' or 'looking for' or 'junior' or 'assistant' or 'assistante' or 'secouriste' or 'sauveteur' or 'alternant' or 'alternante' or 'alternance' or 'apprenti' or 'apprentissage' or 'apprentie' or 'apprenticeship' or 'agent' or 'agente' or 'appui' or 'etudiant' or 'etudiante' or 'student' or 'V.I.E' or 'studying' or 'graduate' or 'technicien' or 'technician' or 'technicienne' or 'board' or 'retired' or 'vice' "
+      ],
+      "relation": "({})"
+    }
+  }
+]

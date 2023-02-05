@@ -1,0 +1,5 @@
+In this project, I will attempt to create a program to
+decode a form of route cipher (transposition cipher)
+
+In cryptography, a transposition cipher is a method of encryption which scrambles the positions of characters (transposition) without changing the characters themselves. Transposition ciphers reorder units of plaintext (typically characters or groups of characters) according to a regular system to produce a ciphertext which is a permutation of the plaintext. They differ from substitution ciphers, which do not change the position of units of plaintext but instead change the units themselves. Despite the difference between transposition and substitution operations, they are often combined, as in historical ciphers like the ADFGVX cipher or complex high-quality encryption methods like the modern Advanced Encryption Standard (AES).
+Source: https://en.wikipedia.org/wiki/Transposition_cipher#:~:text=RTEEO%20DDNIF%20CSLEC-,Route%20cipher,for%20rail%20fence%3A%20W%20R%20I%20O%20R%20F%20E%20O%20E%20E%20E%20S%20V%20E%20L%20A%20N%20J%20A%20D%20C%20E%20D%20E%20T%20C%20X
