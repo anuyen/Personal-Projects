@@ -1,0 +1,47 @@
+aws ec2 create-key-pair \
+--key-name my-key-pair \
+--key-type rsa \
+--key-format pem \
+--query "KeyMaterial" \
+--output text > my-key-pair.pem
+
+aws s3 mb s3://thebigdatabucket --region us-west-2
+
+aws emr create-default-roles
+
+aws emr create-cluster \
+--name "emr cluster delete soon" \
+--release-label emr-6.9.0 \
+--applications Name=Spark \
+--ec2-attributes KeyName=my-key-pair \
+--instance-type m5.xlarge \
+--instance-count 3 \
+--use-default-roles
+
+OUTPUT:
+{
+    "ClusterId": "j-1GVPY5LAN75AU",
+    "ClusterArn": "arn:aws:elasticmapreduce:us-west-2:890533369032:cluster/j-1GVPY5LAN75AU"
+}
+
+aws emr describe-cluster --cluster-id j-1GVPY5LAN75AU
+
+aws emr list-clusters
+
+aws emr add-steps \
+--cluster-id j-1GVPY5LAN75AU \
+--steps Type=Spark,Name="sparkapptest",ActionOnFailure=CONTINUE,Args=[s3://thebigdatabucket/health_violations.py,--data_source,s3://thebigdatabucket/food_establishment_data.csv,--output_uri,s3://thebigdatabucket/output]							
+
+OUTPUT:
+{
+    "StepIds": [
+        "s-38W9UHX66S3XU"
+    ]
+}
+
+aws emr describe-step --cluster-id j-1GVPY5LAN75AU --step-id s-3NJLN7TE90CDL			
+
+
+aws emr terminate-clusters --cluster-ids j-1GVPY5LAN75AU
+
+aws emr describe-cluster --cluster-id j-1GVPY5LAN75AU							
