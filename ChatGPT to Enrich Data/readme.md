@@ -1,5 +1,3 @@
-Reference: https://docs.google.com/document/d/1_amJwBRO43vOCrYqqdS5KfT9k_O-9pLCjIypsrnYxqA/edit?usp=sharing
-
 # Script for cleaning data
 
 ## Step 1: Clean all duplicates
