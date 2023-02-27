@@ -86,8 +86,6 @@ def normalize_name(s):
     """
     return s.lower().capitalize()
 
-print(normalize_name("adpfBIBi ibisadASDw"))
-
 
 def remove_honorifics(s):
     """
@@ -99,7 +97,8 @@ def remove_honorifics(s):
                 "Prof.", "Rev.", "Hon.", "Maj.", "Capt.",
                 "Lt.", "Col.", "Sgt.", "Sir", "Madam",
                 "Dame", "Lord", "Lady", "Esq.",
-                "Jr.", "Sr.", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+                "Jr.", "Sr.", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X","Ms",
+                'Mr',"Mrs",'Dr']
     for honorific in honorifics:
         s = s.replace(honorific, "")
     return s.strip()
@@ -240,6 +239,25 @@ def remove_non_ascii_rows(df: pd.DataFrame)-> pd.DataFrame:
     
     return df
 
+def capitalize_hyphenated_name(name: str) -> str:
+    name_list = [x.capitalize() for x in name.split('-')]
+    if len(name_list) < 1:
+        return name.capitalize()
+    else:
+        return '-'.join(name_list)
+    
+def remove_special_chars2(input_string):
+    # remove characters after '|' character
+    input_string = input_string.split('|')[0]
+    
+    # remove characters after '\' character
+    input_string = input_string.split('\\')[0]
+    
+    # remove characters after '/' character
+    input_string = input_string.split('/')[0]
+    
+    return input_string
+
 def name_cleaning_phase2(string: str)-> str:
     """
     Function to initiate second phase of cleaning
@@ -247,7 +265,7 @@ def name_cleaning_phase2(string: str)-> str:
     # If first or last name has two names, keep the first one
     string = keep_first_name_if_two(string)
 
-    # Normalize name format
+    # Normalize names
     string = normalize_name(string)
 
     # Remove English honorifics
@@ -256,7 +274,23 @@ def name_cleaning_phase2(string: str)-> str:
     # Remove solo letters followed by punctuation
     string = remove_solo_char(string)
 
-    # Final capitalization
-    string = str(string).capitalize()
+    # Capitalize hyphenated names
+    string = capitalize_hyphenated_name(string)
 
     return string
+
+def clean_company_name(company: str)-> str:
+    company = remove_enclosed_words(company)
+    company = remove_all_info_after_comma(company)
+    company = remove_words_after_slash(company)
+    company = remove_special_chars2(company)
+    if len(company) < 4:
+        return company.upper()
+    if '-' in company:
+        company = capitalize_hyphenated_name(company)
+    name_list = [capitalize_hyphenated_name(x.capitalize()) for x in company.split(' ')]
+    if len(name_list) < 1:
+        return capitalize_hyphenated_name(company)
+    else:
+        return ' '.join(name_list)
+    
