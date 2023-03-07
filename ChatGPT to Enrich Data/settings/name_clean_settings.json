@@ -1,0 +1,25 @@
+{
+    "honorifics":["Major","Majors", "Lieutenant Colonel",
+    "Colonel", "Admiral", "Brigadier",
+    "Captain","Mr.", "Mrs.", "Ms.", "Dr.","DR.","dr.","MD.",
+    "Prof.", "Rev.", "Hon.", "Maj.", "Capt.",
+    "Lt.", "Col.", "Sgt.", "Sir", "Madam", "Lord", "Lady", "Esq.",
+    "Jr.", "Sr.", "Sc.", "El."],
+
+    "de_set":["el","al","am", "le", "van der", "du", "im", "de la", "do", 
+    "aus der", "den", "vander", "op den", "von der", "y", "auf", "dall", 
+    "von und zu", "das", "dei", "de", "di", "della", "auf der", "der",
+    "des", "del", "degli", "dell", "an", "zur", "de los", "zu", "af", "de las", 
+    "vanden", "dos", "van den", "ten", "ter", "te", "lo", "a", "av", "zum", 
+    "op de", "van", "d", "'t", "da", "von"],
+
+    "white_list_companies":["air canada","air france"],
+
+    "country_names_to_remove_from_end": [
+    "canada","usa","india","france","italy",
+    "england","ireland","us","na","uk","china",
+    "russia","mexico","vietnam","germany",
+    "japan","korea","brazil"],
+
+    "comma_exception_set": ["Insert names to bypass comma filter here"]
+}

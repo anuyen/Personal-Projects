@@ -1,0 +1,46 @@
+{
+    "headers": [
+        "first_name",
+        "last_name",
+        "company_name",
+        "job_title",
+        "profile_url",
+        "location",
+        "country",
+        "countr_to_be_dropped",
+        "company_id",
+        "linkedin_id",
+        "file_name",
+        "company_url",
+        "followers",
+        "overview",
+        "website",
+        "unknown_link_col_15",
+        "unknown_link_col_16",
+        "unknown_link_col_17",
+        "phone",
+        "industry",
+        "headcount",
+        "employee_on_linkedin",
+        "headquarter",
+        "specialities",
+        "company_location"
+    ],
+    "number_of_columns": 25,
+
+    "input_file_location":".\\data.csv",
+
+    "openai_apikey":"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",
+
+    "country_list_to_search": ["France","United States","Canada"],
+
+    "countries_database_file_location": ".\\location_guesser\\countries.json",
+
+    "location_countries_database_file_location":".\\location_guesser\\location_country.json",
+
+    "cleaned_data_output_file_name": ".\\output\\cleaned_data.csv",
+
+    "single_letter_name_output_file_name": ".\\output\\sing_letter_name.csv",
+
+    "gender_guesser_data_file_name": ".\\gender_guesser\\gender_data.json"
+}
