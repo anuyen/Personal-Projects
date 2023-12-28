@@ -1,7 +1,3 @@
-data "azurerm_resource_group" "azure-bastion-rg" {
-    name = "azure-bastion-rg"
-}
-
 # Virtual Network
 resource "azurerm_virtual_network" "vnet2" {
   name = "vnet2"
