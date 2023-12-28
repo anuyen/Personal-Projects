@@ -49,4 +49,21 @@ A new browser with open with the terminal to your VM
 
 ![success-bastion](./pics/success%20bastion.png)
 
+## Connect to your VM from your computer
+
+Other than using portal to access your Bastion host's session into your VM, you can directly ssh into your VM
+
+Here's a good place to read about how it works:
+https://learn.microsoft.com/en-us/azure/bastion/connect-vm-native-client-windows#connect-to-a-vm---tunnel-command
+
+    az network bastion tunnel --name "bastion-host" --resource-group "azure-bastion-rg" --target-resource-id "your-target-id" --resource-port "22" --port "6969"
+
+Then ssh into your vm
+
+    ssh anguyen@127.0.0.1 -p 6969
+
+Note: The IP is literally 127.0.0.1, do not use your private or public ip
+
+![ssh-success](./pics/ssh%20success.png)
+
 # DONE!
