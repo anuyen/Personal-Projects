@@ -1,8 +1,0 @@
-For this program, I created 2 classes Participant and Batch
-
-The main program takes in Name, Age, which are used to create
-	a participation object
-	
-It also asks for which time to run, which takes in either a
-	string or an integer. This is used to assign the person to
-	a batch
