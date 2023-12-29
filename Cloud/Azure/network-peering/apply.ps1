@@ -39,8 +39,9 @@ do {
 while (($job3.HasMoreData) -or ($job4.HasMoreData))
 
 $result3; $result4
+Remove-Job $job3, $job4
 
-# Create Virtual Network and their VM Subnets
+# Create Virtual Networks and their VM Subnets
 $job5 = Start-Job -ScriptBlock {
     param($path) 
     terraform -chdir="$path\eastus" apply -target azurerm_virtual_network.eastus-vnet --auto-approve -compact-warnings

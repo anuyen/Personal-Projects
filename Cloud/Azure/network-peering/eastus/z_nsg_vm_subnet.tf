@@ -17,6 +17,7 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     destination_address_prefix = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
   }
 
+  # Allow inbound ssh from central us (remember, ssh is two way comm)
   security_rule {
     name                       = "AllowVmSshInbound"
     priority                   = 510
@@ -42,6 +43,7 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     destination_address_prefix = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
   }
 
+  # Allow outbound ssh to central us
   security_rule {
     name                       = "AllowSshOutbound"
     priority                   = 400
