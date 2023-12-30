@@ -10,9 +10,6 @@ Read more: https://learn.microsoft.com/en-us/azure/virtual-network/virtual-netwo
 
 In this project, I will set up a VM in Central US that is only accessible via ssh connection, though peering, from a VM in East US. The VM is East US is accessible for ssh over the internet via Bastion Tunneling.
 
-Read more:
-[How to up Bastion with Terraform](https://github.com/antnguyen72/Personal-Projects/tree/main/Cloud/Azure/azure-bastion)
-
 ## Project Components
 
 I will set up the following (similar to diagram below) with Terraform:
@@ -31,11 +28,129 @@ I will set up the following (similar to diagram below) with Terraform:
 
 ![project-diagram](https://learn.microsoft.com/en-us/azure/virtual-network/media/tutorial-connect-virtual-networks-portal/resources-diagram.png)
 
-Network Security Group for each subnet allow only necessary connection (see terraform file for more details).
+### Azure Bastion
 
-Note!: SSH is a two-way connection. So you will need to allow both outbound and inbound TCP connections from each Subnet to the other via port 22.
+Used exact code from an earlier project
 
-Powershell scripting is used to automate the deployment process. With Powershell, I was able to build out dependecies and speed up the deployment process with parallelization.
+https://github.com/antnguyen72/Personal-Projects/tree/main/Cloud/Azure/azure-bastion
+
+### Peering Configuration
+
+Since I am using Virtual Networks in different regions, the "allow_gateway_transit" option is set to false for Global peering. I honestly am confused about this option, even after reading multiple documents. I think it's better to keep it in mind and re-explore it later when I have more knowledge about networking.
+
+Since SSH is a 2-way connection, peering also has to be 2-way.
+
+Read more: https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-peering-gateway-transit
+
+    resource "azurerm_virtual_network_peering" "peer-eastus-to-centralus" {
+        name                      = "peer-eastus-to-centralus"
+        resource_group_name       = data.azurerm_resource_group.eastus-network-peering-rg.name
+        virtual_network_name      = data.azurerm_virtual_network.eastus-vnet.name
+        remote_virtual_network_id = azurerm_virtual_network.centralus-vnet.id
+
+        allow_virtual_network_access = true
+        allow_forwarded_traffic      = true
+
+        # `allow_gateway_transit` must be set to false for vnet Global Peering
+        allow_gateway_transit = false
+    }
+
+    resource "azurerm_virtual_network_peering" "peer-centralus-to-eastus" {
+        name                      = "peer-centralus-to-eastus"
+        resource_group_name       = azurerm_resource_group.centralus-network-peering-rg.name
+        virtual_network_name      = azurerm_virtual_network.centralus-vnet.name
+        remote_virtual_network_id = data.azurerm_virtual_network.eastus-vnet.id
+
+        allow_virtual_network_access = true
+        allow_forwarded_traffic      = true
+
+        # `allow_gateway_transit` must be set to false for vnet Global Peering
+        allow_gateway_transit = false
+    }
+
+### Network Security Group Configuration
+
+For subnet network security groups, where my VM resides, I allowed both outbound and inbound TCP connections at port 22. (SSH is a two-way connection)
+
+    # Allow ssh inbound
+    security_rule {
+        name                       = "AllowSshInbound"
+        priority                   = 500
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_ranges    = ["22"]
+        source_address_prefix      = data.azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+        destination_address_prefix = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+    }
+
+    # Allow ssh outbound (ssh is a 2-way communication)
+    security_rule {
+        name                       = "AllowSshOutbound"
+        priority                   = 500
+        direction                  = "Outbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_ranges    = ["22"]
+        source_address_prefix      = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+        destination_address_prefix = data.azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    }
+
+### Deployment orchestration with PowerShell
+
+I used PowerShell because:
+
+* Resource Group is to be created first. Maybe it's the way I wrote my code, but I saw that resource groups must be created before other resources.
+* Certain resources depend on data modules. When these resources are deployed, they check in with the data module, and, in turn, the resource pointed at by the data module is checked. If I run apply on all, resources mentioned by data modules might not have been created yet.
+
+        data "azurerm_resource_group" "eastus-network-peering-rg" {
+        name = "eastus-network-peering-rg"
+        }
+
+        data "azurerm_virtual_network" "eastus-vnet" {
+        name                = "eastus-vnet"
+        resource_group_name = data.azurerm_resource_group.eastus-network-peering-rg.name
+        }
+
+        data "azurerm_subnet" "eastus-vm-subnet" {
+        name                 = "eastus-vm-subnet"
+        resource_group_name  = data.azurerm_resource_group.eastus-network-peering-rg.name
+        virtual_network_name = data.azurerm_virtual_network.eastus-vnet.name
+        }
+    These resources are imported for peering configuration above.
+
+To solve this problem, I used PowerShell to deploy in the following order:
+
+1.  Init
+2.  Deploy Resource Groups
+3.  Deploy Virtual Networks and Subnets
+4.  Deploy all (Virtual Machines, Bastion Host, Network Security Group)
+
+Using a code structure like below, I applied each corresponding resource on each region in parallel to speed up deployment.
+
+        $currentPath = Get-Location
+
+        # Init both directories in parallel
+        $job1 = Start-Job -ScriptBlock { 
+            param($path) terraform -chdir="$path\eastus" init 
+        } -ArgumentList $currentPath
+        $job2 = Start-Job -ScriptBlock { 
+            param($path) terraform -chdir="$path\centralus" init 
+        } -ArgumentList $currentPath
+
+        # Wait
+        Wait-Job $job1, $job2
+        do {
+            $result1 = Receive-Job $job1; $result2 = Receive-Job $job2
+            # Process result if needed
+        }
+        while (($job1.HasMoreData) -or ($job2.HasMoreData))
+
+        # print results
+        $result1; $result2
+        Remove-Job $job1, $job2
 
 ## Steps:
 
