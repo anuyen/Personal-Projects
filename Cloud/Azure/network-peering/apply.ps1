@@ -7,7 +7,7 @@ function Invoke-Async-Commands {
     <#
     Description:
         This function takes in paths and commands.
-        If more than one paths is given, the series of commands are started asynchronously in each folder.
+        If more than one paths is given, the series of commands are ran asynchronously in each folder.
         The series of commands themselves are ran sequentially.
 
         The function will wait for jobs to finish and write out output before removing the job and exiting the function
@@ -15,8 +15,7 @@ function Invoke-Async-Commands {
         paths: input - an array of paths
         commands: input - an array of commands
     Use:
-        With async function call, the duration of the function will as long as the longest single-function
-        durction
+        With async function call, the duration of the function will as long as the longest single-command duration
     #>
     param(
         [string[]]$paths,
