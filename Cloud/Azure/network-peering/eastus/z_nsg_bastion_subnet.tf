@@ -1,7 +1,7 @@
 resource "azurerm_network_security_group" "bastion-nsg" {
   name                = "bastion-nsg"
-  location            = azurerm_resource_group.eastus-network-peering-rg.location
-  resource_group_name = azurerm_resource_group.eastus-network-peering-rg.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   # Allow tcp connection from internet and gateway manager
   security_rule {

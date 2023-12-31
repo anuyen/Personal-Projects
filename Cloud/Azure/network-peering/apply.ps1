@@ -1,86 +1,79 @@
 # Due to dependencies, resources have to be deployed in this order
 
-$currentPath = Get-Location
+# Start the timer
+$startTime = Get-Date
 
-# Init both directories in parallel
-$job1 = Start-Job -ScriptBlock { 
-    param($path) terraform -chdir="$path\eastus" init 
-} -ArgumentList $currentPath
-$job2 = Start-Job -ScriptBlock { 
-    param($path) terraform -chdir="$path\centralus" init 
-} -ArgumentList $currentPath
+function Invoke-Async-Commands {
+    param(
+        [string[]]$paths,
+        [string[]]$commands
+    )
 
-# Wait
-Wait-Job $job1, $job2
-do {
-    $result1 = Receive-Job $job1; $result2 = Receive-Job $job2
-    # Process result if needed
+    $jobs = @()
+    foreach ($path in $paths){
+        # When Invoke-Expression is used, multiple commands sequentially can be
+        # invoked if they have separed by ; in that string
+        $final_commands = ""
+        foreach ($command in $commands){
+            $final_commands += "terraform -chdir=`"$path`" $command;"
+        }
+        $jobs += Start-Job -ScriptBlock {
+            param($final_commands)
+                Write-Host "-----------------------------------------------------------------" -ForegroundColor Cyan
+                Write-Host "For command:" -ForegroundColor Cyan
+                Write-Host $final_commands -ForegroundColor Cyan
+                Invoke-Expression $final_commands
+        } -ArgumentList $final_commands
+    }
+
+    # Wait
+    Wait-Job $jobs > $null
+    do {
+        foreach ($job in $jobs) {
+            if ($job.State -eq 'Failed') {
+                Write-Output "Job $($job.Id) failed with error: $($job.JobStateInfo.Reason.Message)"
+            } else {
+                $result = Receive-Job $job
+                Write-Output $result  # Print the result to the terminal
+                # Process result if needed
+            }
+        }
+    }
+    while (($jobs | Where-Object HasMoreData).Count -gt 0)
+
+    $jobs | Remove-Job
 }
-while (($job1.HasMoreData) -or ($job2.HasMoreData))
 
-# print results
-$result1; $result2
-Remove-Job $job1, $job2
+$path1 = Join-Path (Get-Location) "eastus"
+$path2 = Join-Path (Get-Location) "centralus"
+$paths = @($path1, $path2)
 
-# Create Resource Groups in parallel
-$job3 = Start-Job -ScriptBlock { 
-    param($path) terraform -chdir="$path\eastus" apply -target azurerm_resource_group.eastus-network-peering-rg --auto-approve -compact-warnings
-} -ArgumentList $currentPath
-$job4 = Start-Job -ScriptBlock { 
-    param($path) terraform -chdir="$path\centralus" apply -target azurerm_resource_group.centralus-network-peering-rg --auto-approve -compact-warnings
-} -ArgumentList $currentPath
+# Init both directories
+Invoke-Async-Commands `
+    -commands "init" `
+    -paths $paths
 
-# Wait for both jobs to complete
-Wait-Job $job3, $job4
-do {
-    $result3 = Receive-Job $job3; $result4 = Receive-Job $job4
-    # Process result if needed
-}
-while (($job3.HasMoreData) -or ($job4.HasMoreData))
+# Create Resource Groups
+Invoke-Async-Commands `
+    -commands "apply -target azurerm_resource_group.rg --auto-approve -compact-warnings" `
+    -paths $paths
 
-$result3; $result4
-Remove-Job $job3, $job4
+# Create Virtual Network and their VM Subnets
+Invoke-Async-Commands `
+    -commands "apply -target azurerm_virtual_network.vnet --auto-approve -compact-warnings", `
+    "apply -target azurerm_subnet.vm-subnet --auto-approve -compact-warnings" `
+    -paths $paths
 
-# Create Virtual Networks and their VM Subnets
-$job5 = Start-Job -ScriptBlock {
-    param($path) 
-    terraform -chdir="$path\eastus" apply -target azurerm_virtual_network.eastus-vnet --auto-approve -compact-warnings
-    terraform -chdir="$path\eastus" apply -target azurerm_subnet.eastus-vm-subnet --auto-approve -compact-warnings
-} -ArgumentList $currentPath
+# Apply remaining configuration
+Invoke-Async-Commands `
+    -commands "apply --auto-approve" `
+    -paths $paths
 
-$job6 = Start-Job -ScriptBlock {
-    param($path) 
-    terraform -chdir="$path\centralus" apply -target azurerm_virtual_network.centralus-vnet --auto-approve -compact-warnings
-    terraform -chdir="$path\centralus" apply -target azurerm_subnet.centralus-vm-subnet --auto-approve -compact-warnings
-} -ArgumentList $currentPath
+# Calculate the time difference
+$endTime = Get-Date
+$timeTaken = $endTime - $startTime
 
-# Wait for both jobs to complete
-Wait-Job $job5, $job6
-do {
-    $result5 = Receive-Job $job5; $result6 = Receive-Job $job6
-    # Process result if needed
-}
-while (($job5.HasMoreData) -or ($job6.HasMoreData))
-
-$result5; $result6
-Remove-Job $job5, $job6
-
-# Apply remaining configuration in parallel
-$job7 = Start-Job -ScriptBlock { 
-    param($path) terraform -chdir="$path\eastus" apply --auto-approve
-} -ArgumentList $currentPath
-$job8 = Start-Job -ScriptBlock { 
-    param($path) terraform -chdir="$path\centralus" apply --auto-approve
-} -ArgumentList $currentPath
-
-# Wait
-Wait-Job $job7, $job8
-do {
-    $result7 = Receive-Job $job7; $result8 = Receive-Job $job8
-    # Process result if needed
-}
-while (($job7.HasMoreData) -or ($job8.HasMoreData))
-
-# print results
-$result7; $result8
-Remove-Job $job7, $job8
+# Output the time taken
+$minutes = [math]::Floor($timeTaken.TotalMinutes)
+$seconds = [math]::Round($timeTaken.TotalSeconds - $minutes * 60)
+Write-Output "`nTotal time taken: $minutes minute(s) and $seconds second(s)"

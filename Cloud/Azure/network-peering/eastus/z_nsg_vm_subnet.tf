@@ -1,7 +1,7 @@
 resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
   name                = "eastus-vm-subnet-nsg"
-  location            = azurerm_resource_group.eastus-network-peering-rg.location
-  resource_group_name = azurerm_resource_group.eastus-network-peering-rg.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   # Allow inbound traffic from AzureBastionSubnet to eastus-vm-subnet
   # 22 --> ssh, 3389 --> rdp, both uses tcp
@@ -14,10 +14,9 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     source_port_range          = "*"
     destination_port_ranges    = ["3389", "22"]
     source_address_prefix      = azurerm_subnet.AzureBastionSubnet.address_prefixes[0]
-    destination_address_prefix = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
-  # Allow inbound ssh from central us (remember, ssh is two way comm)
   security_rule {
     name                       = "AllowVmSshInbound"
     priority                   = 510
@@ -27,7 +26,7 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     source_port_range          = "*"
     destination_port_ranges    = ["22"]
     source_address_prefix      = data.azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
-    destination_address_prefix = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
   # Deny any other inbounds
@@ -40,10 +39,9 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
-    destination_address_prefix = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
-  # Allow outbound ssh to central us
   security_rule {
     name                       = "AllowSshOutbound"
     priority                   = 400
@@ -52,7 +50,7 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_ranges    = ["22"]
-    source_address_prefix      = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    source_address_prefix      = azurerm_subnet.vm-subnet.address_prefixes[0]
     destination_address_prefix = data.azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
   }
 
@@ -65,8 +63,8 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     protocol                   = "*"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
-    destination_address_prefix = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    source_address_prefix      = azurerm_subnet.vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
   # Deny any outbound from subnet
@@ -78,7 +76,7 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
     protocol                   = "*"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
+    source_address_prefix      = azurerm_subnet.vm-subnet.address_prefixes[0]
     destination_address_prefix = "*"
   }
 
@@ -87,5 +85,5 @@ resource "azurerm_network_security_group" "eastus-vm-subnet-nsg" {
 # Associate nsg with vm-vnet
 resource "azurerm_subnet_network_security_group_association" "nsg-eastus-vm-subnet-association" {
   network_security_group_id = azurerm_network_security_group.eastus-vm-subnet-nsg.id
-  subnet_id                 = azurerm_subnet.eastus-vm-subnet.id
+  subnet_id                 = azurerm_subnet.vm-subnet.id
 }

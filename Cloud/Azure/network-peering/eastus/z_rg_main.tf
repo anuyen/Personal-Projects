@@ -14,7 +14,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "eastus-network-peering-rg" {
+resource "azurerm_resource_group" "rg" {
   name     = "eastus-network-peering-rg"
   location = "eastus"
 }

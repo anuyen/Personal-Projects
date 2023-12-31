@@ -1,26 +1,26 @@
-resource "azurerm_network_interface" "centralus-vm-nic" {
-  name                = "centralus-vm-nic"
-  location            = azurerm_resource_group.centralus-network-peering-rg.location
-  resource_group_name = azurerm_resource_group.centralus-network-peering-rg.name
+resource "azurerm_network_interface" "vm1-nic" {
+  name                = "central-us-vm1-nic"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
-    name                          = "centralus-vm-nic1-conf"
-    subnet_id                     = azurerm_subnet.centralus-vm-subnet.id
+    name                          = "vm1-nic1-conf"
+    subnet_id                     = azurerm_subnet.vm-subnet.id
     private_ip_address_allocation = "Dynamic"
   }
 }
 
-resource "azurerm_linux_virtual_machine" "centralus-vm" {
-  name                            = "centralus-vm"
-  resource_group_name             = azurerm_resource_group.centralus-network-peering-rg.name
-  location                        = azurerm_resource_group.centralus-network-peering-rg.location
+resource "azurerm_linux_virtual_machine" "vm1" {
+  name                            = "central-us-vm1"
+  resource_group_name             = azurerm_resource_group.rg.name
+  location                        = azurerm_resource_group.rg.location
   size                            = "Standard_B1s"
   admin_username                  = "anguyen"
   admin_password                  = "ExtremelyHardToGuessPassword11999!*(@)"
   disable_password_authentication = false
 
   network_interface_ids = [
-    azurerm_network_interface.centralus-vm-nic.id
+    azurerm_network_interface.vm1-nic.id
   ]
 
   os_disk {

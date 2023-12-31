@@ -14,7 +14,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "centralus-network-peering-rg" {
+resource "azurerm_resource_group" "rg" {
   name     = "centralus-network-peering-rg"
   location = "centralus"
 }

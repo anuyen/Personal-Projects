@@ -1,7 +1,7 @@
-resource "azurerm_network_security_group" "centralus-vm-subnet-nsg" {
+resource "azurerm_network_security_group" "vm-subnet-nsg" {
   name                = "centralus-vm-subnet-nsg"
-  location            = azurerm_resource_group.centralus-network-peering-rg.location
-  resource_group_name = azurerm_resource_group.centralus-network-peering-rg.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
   # Allow ssh inbound from eastus
   security_rule {
@@ -13,7 +13,7 @@ resource "azurerm_network_security_group" "centralus-vm-subnet-nsg" {
     source_port_range          = "*"
     destination_port_ranges    = ["22"]
     source_address_prefix      = data.azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
-    destination_address_prefix = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
   # Deny any other inbounds
@@ -26,7 +26,7 @@ resource "azurerm_network_security_group" "centralus-vm-subnet-nsg" {
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
-    destination_address_prefix = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
   # Allow ssh outbound to eastus (ssh is a two way communication)
@@ -38,7 +38,7 @@ resource "azurerm_network_security_group" "centralus-vm-subnet-nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_ranges    = ["22"]
-    source_address_prefix      = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+    source_address_prefix      = azurerm_subnet.vm-subnet.address_prefixes[0]
     destination_address_prefix = data.azurerm_subnet.eastus-vm-subnet.address_prefixes[0]
   }
 
@@ -51,8 +51,8 @@ resource "azurerm_network_security_group" "centralus-vm-subnet-nsg" {
     protocol                   = "*"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
-    destination_address_prefix = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+    source_address_prefix      = azurerm_subnet.vm-subnet.address_prefixes[0]
+    destination_address_prefix = azurerm_subnet.vm-subnet.address_prefixes[0]
   }
 
   # Deny any outbound from subnet
@@ -64,13 +64,13 @@ resource "azurerm_network_security_group" "centralus-vm-subnet-nsg" {
     protocol                   = "*"
     source_port_range          = "*"
     destination_port_range     = "*"
-    source_address_prefix      = azurerm_subnet.centralus-vm-subnet.address_prefixes[0]
+    source_address_prefix      = azurerm_subnet.vm-subnet.address_prefixes[0]
     destination_address_prefix = "*"
   }
 }
 
 # Associate nsg with vm-vnet
 resource "azurerm_subnet_network_security_group_association" "nsg-vm-subnet-association" {
-  network_security_group_id = azurerm_network_security_group.centralus-vm-subnet-nsg.id
-  subnet_id                 = azurerm_subnet.centralus-vm-subnet.id
+  network_security_group_id = azurerm_network_security_group.vm-subnet-nsg.id
+  subnet_id                 = azurerm_subnet.vm-subnet.id
 }
